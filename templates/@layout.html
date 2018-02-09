@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MyFlaskApp</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    {% include 'includes/_navbar.html' %}
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+      {% block body %} {% endblock %}
+    </div>
+    <script>
+      $(document).ready(function(){
+        $('a#getCityState').click(function(){
+          let zCode = $('#zip_code').val()
+          let query = "http://production.shippingapis.com/ShippingAPITest.dll?API=CityStateLookup&XML=<CityStateLookupRequest USERID='872SELF02706'><ZipCode ID= '0'><Zip5>" + zCode + "</Zip5></ZipCode></CityStateLookupRequest>";
+
+          $.ajax({
+            url: query,
+            type: 'GET',
+            dataType: 'xml',
+            success: function(res) {
+              $('ZipCode', res).each(function() {
+                let aj_city = $(this).find('City').text();
+                let aj_state = $(this).find('State').text();
+                let inp_city = $('#city');
+                let inp_state = $('#state');
+
+                inp_city.val(aj_city);
+                inp_state.val(aj_state);
+
+                if((aj_city || aj_state) === '') {
+                  alert("Zip code invalid")
+                }
+              });
+            }
+          });
+        });
+      });
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

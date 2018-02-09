@@ -1,0 +1,36 @@
+{% extends '@layout.html' %}
+
+{% block body %}
+  <h1>Addresses</h1>
+  <a class="btn btn-success" href="/add-address">Add Address</a>
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Street Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {% for address in addresses %}
+      <tr>
+        <td>{{ address.id }}</td>
+        <td>{{ address.name }}</td>
+        <td>{{ address.address }}</td>
+        <td>{{ address.city }}</td>
+        <td>{{ address.state }}</td>
+        <td>{{ address.zip_code }}</td>
+        <td><a href="edit-address/{{ address.id }}" class="btn btn-default pull-right">Edit</a></td>
+        <td>
+          <form action="{{url_for('delete_address' , id=address.id)}}" method = "Post">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Delete" class="btn btn-danger">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends '@layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <h1>Address Book App by Charles Hollins</h1>
+    <p class="lead">This application is built on the Flask framework, written in Python with MySQL database.</p>
+    {% if session.logged_in == NULL %}
+      <a href="/view-all" class="btn btn-primary btn-lg">View Addresses</a>
+      <a href="/add-address" class="btn btn-success btn-lg">Add Address</a>
+    {% endif %}
+  </div>
+{% endblock %}
